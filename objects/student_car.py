@@ -32,7 +32,6 @@ class StudentCar(object):
             # break the loop and leave if total patience exceeded
             if env.now - arrival_time > self.total_patience:
                 self.parked = False
-                print('Student car {} got frustrated and left'.format(self.label))
                 break
             with lot.parking_spaces.request() as got_parking:
                 parking_attempt = yield got_parking | env.timeout(self.single_lot_patience, 2)

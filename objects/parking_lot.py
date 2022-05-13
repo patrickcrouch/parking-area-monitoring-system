@@ -1,5 +1,4 @@
 import simpy
-import random
 
 class ParkingLot:
     def __init__(self, env, capacity, lot_number, label):

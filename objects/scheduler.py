@@ -1,14 +1,14 @@
 class Scheduler(object):
 
-    def __init__(self, busy_percentage = 100.0):
+    def __init__(self, activity_level=100.0):
         self.hourly_arrival_rates = []
-        self.busy_percentage = busy_percentage / 100.0
+        self.activity_level = activity_level / 100.0
         # each value is 1 divided by cars per minute
-        self.hourly_arrival_rates.append(1.0 / 3 / self.busy_percentage)
-        self.hourly_arrival_rates.append(1.0 / 7 / self.busy_percentage)
-        self.hourly_arrival_rates.append(1.0 / 12 / self.busy_percentage)
-        self.hourly_arrival_rates.append(1.0 / 18 / self.busy_percentage)
-        self.hourly_arrival_rates.append(1.0 / 25 / self.busy_percentage)
+        self.hourly_arrival_rates.append(1.0 / 3 / self.activity_level)
+        self.hourly_arrival_rates.append(1.0 / 7 / self.activity_level)
+        self.hourly_arrival_rates.append(1.0 / 12 / self.activity_level)
+        self.hourly_arrival_rates.append(1.0 / 18 / self.activity_level)
+        self.hourly_arrival_rates.append(1.0 / 25 / self.activity_level)
         reverse_arrivals = list(reversed(self.hourly_arrival_rates))
         for arrival in reverse_arrivals:
             self.hourly_arrival_rates.append(arrival)

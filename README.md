@@ -14,7 +14,4 @@ If PAMS is active, students will only waste 6 seconds waiting on a full deck (th
 
 ## To do list
 
-- Spreadsheet I/O
-- Uniform distribution for even interarrival times all day
-- combinatorial percentage choice distribution for lot preference
-- more detailed PAMS logic
+- Refactor for better comprehension

@@ -19,14 +19,14 @@ max_wait = 0.0
 # Number of weeks to run the simulation for and week's expected capacity percentage
 runs_per_trial = 1
 trial_data_map_list = [
-    # {'Trial Label': 1, 'Uniform Distribution': True, 'PAMS Enabled': False, 'Lots Evenly Sized': True} #,
-    # {'Trial Label': 2, 'Uniform Distribution': False, 'PAMS Enabled': False, 'Lots Evenly Sized': True},
-    # {'Trial Label': 3, 'Uniform Distribution': True, 'PAMS Enabled': True, 'Lots Evenly Sized': True},
-    # {'Trial Label': 4, 'Uniform Distribution': False, 'PAMS Enabled': True, 'Lots Evenly Sized': True},
-    # {'Trial Label': 5, 'Uniform Distribution': True, 'PAMS Enabled': False, 'Lots Evenly Sized': False},
-    # {'Trial Label': 6, 'Uniform Distribution': False, 'PAMS Enabled': False, 'Lots Evenly Sized': False},
-    # {'Trial Label': 7, 'Uniform Distribution': True, 'PAMS Enabled': True, 'Lots Evenly Sized': False},
-    # {'Trial Label': 8, 'Uniform Distribution': False, 'PAMS Enabled': True, 'Lots Evenly Sized': False}
+    {'Trial Label': 1, 'Uniform Distribution': True, 'PAMS Enabled': False, 'Lots Evenly Sized': True},
+    {'Trial Label': 2, 'Uniform Distribution': False, 'PAMS Enabled': False, 'Lots Evenly Sized': True},
+    {'Trial Label': 3, 'Uniform Distribution': True, 'PAMS Enabled': True, 'Lots Evenly Sized': True},
+    {'Trial Label': 4, 'Uniform Distribution': False, 'PAMS Enabled': True, 'Lots Evenly Sized': True},
+    {'Trial Label': 5, 'Uniform Distribution': True, 'PAMS Enabled': False, 'Lots Evenly Sized': False},
+    {'Trial Label': 6, 'Uniform Distribution': False, 'PAMS Enabled': False, 'Lots Evenly Sized': False},
+    {'Trial Label': 7, 'Uniform Distribution': True, 'PAMS Enabled': True, 'Lots Evenly Sized': False},
+    {'Trial Label': 8, 'Uniform Distribution': False, 'PAMS Enabled': True, 'Lots Evenly Sized': False}
 ]
 
 # Traffic attenuation by weekday.  Subdued Monday start, midweek busy, Friday slowest.
@@ -61,9 +61,10 @@ def setup(env, activity_level, is_uniform_distribution, pams_enabled, is_lots_ev
     
     while num_cars < num_cars_max:
         if is_uniform_distribution:
-            arrival_timeout = 1.0 / num_cars_max / 3000.0
+            arrival_timeout = 3000.0 / num_cars_max
         else:
-            arrival_timeout = scheduler.get(env.now)
+            interarrival = scheduler.get(env.now)
+            arrival_timeout = random.exponential(interarrival)
         yield env.timeout(arrival_timeout)
         num_cars += 1
         car = StudentCar(env, '{}'.format(num_cars), parking_lots, pams_enabled)
@@ -97,6 +98,7 @@ for trial_data_map in trial_data_map_list:
         for weekday in range(0,5):
             env = simpy.Environment()
             env.process(setup(env, activity_level * weekday_scalars[weekday], is_uniform_distribution, is_pams_enabled, is_lots_evenly_sized))
+            # env.run()
             env.run(until = daily_run_time)
 
         # Write and output spreadsheet rows for individual student cars

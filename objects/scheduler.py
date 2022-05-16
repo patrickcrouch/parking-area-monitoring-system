@@ -35,4 +35,6 @@ class Scheduler(object):
             interarrival_time = self.hourly_arrival_rates[8]
         elif current_time <= 600:
             interarrival_time = self.hourly_arrival_rates[9]
+        else:
+            interarrival_time = self.hourly_arrival_rates[0]
         return interarrival_time

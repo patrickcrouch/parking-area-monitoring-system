@@ -9,7 +9,7 @@ class StudentCar(object):
         self.student_car_label = student_car_label
         # Max minutes to wait in a single lot with PAMS enabled
         if(pams_enabled == True):
-            self.single_lot_patience(0.1)
+            self.single_lot_patience = 0.1
         else:
             self.single_lot_patience = random.triangular(10.0, 15.0, 20.0)
         # Time needed in lot
